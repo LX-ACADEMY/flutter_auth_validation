@@ -25,18 +25,24 @@ class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
-        if (user == null || !user.emailVerified) {
-          navigatorKey.currentState!.pushReplacement(
+      // if(FirebaseAuth.instance.currentUser == null) {
+
+      // }
+
+      FirebaseAuth.instance.userChanges().listen((User? user) {
+        if (user == null || (!user.emailVerified && user.phoneNumber == null)) {
+          navigatorKey.currentState!.pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (context) => const SignInPage(),
             ),
+            (route) => false,
           );
         } else {
-          navigatorKey.currentState!.pushReplacement(
+          navigatorKey.currentState!.pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (context) => const HomePage(),
             ),
+            (route) => false,
           );
         }
       });

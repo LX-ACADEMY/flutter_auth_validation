@@ -1,3 +1,4 @@
+import 'package:auth_example/services/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,10 @@ class HomePage extends StatelessWidget {
             children: [
               Text("Hello ${FirebaseAuth.instance.currentUser?.displayName}"),
               ElevatedButton(
-                  onPressed: () async {}, child: const Text("LogOut")),
+                  onPressed: () async {
+                    await AuthServices.logOut();
+                  },
+                  child: const Text("LogOut")),
             ],
           ),
         ));
